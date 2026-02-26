@@ -1,45 +1,44 @@
-public class PalindromeCheckerApp{
+import java.util.Stack;
+
+public class PalindromeCheckerApp {
 
     /**
-     * Application entry point for UC4.
+     * Application entry point for UC5.
      *
      * @param args Command-line arguments
      */
     public static void main(String[] args) {
 
-    // Declare and initialize the input string.
-    String input = "radar";
+        // Input string
+        String input = "madam";
 
-    // Convert the string into a character array.
-    char[] chars = input.toCharArray();
+        // Create a stack of characters
+        Stack<Character> stack = new Stack<>();
 
-    // Initialize pointer at the beginning.
-    int start = 0;
-
-    // Initialize pointer at the end.
-    int end = chars.length - 1;
-
-    // Assume palindrome initially.
-    boolean isPalindrome = true;
-
-    // Continue comparison until pointers cross.
-        while (start < end) {
-
-        if (chars[start] != chars[end]) {
-            isPalindrome = false;
-            break;
+        // Push characters into stack
+        for (int i = 0; i < input.length(); i++) {
+            stack.push(input.charAt(i));
         }
 
-        start++;
-        end--;
-    }
+        // Assume palindrome initially
+        boolean isPalindrome = true;
 
-    // Display the result.
+        // Pop characters and compare
+        for (int i = 0; i < input.length(); i++) {
+
+            char poppedChar = stack.pop();
+
+            if (input.charAt(i) != poppedChar) {
+                isPalindrome = false;
+                break;
+            }
+        }
+
+        // Print result
         if (isPalindrome) {
-        System.out.println("The word \"" + input + "\" is a Palindrome.");
-    } else {
-        System.out.println("The word \"" + input + "\" is NOT a Palindrome.");
+            System.out.println("The word \"" + input + "\" is a Palindrome.");
+        } else {
+            System.out.println("The word \"" + input + "\" is NOT a Palindrome.");
+        }
     }
 }
-}
-
