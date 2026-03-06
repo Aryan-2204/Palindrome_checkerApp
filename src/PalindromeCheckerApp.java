@@ -1,94 +1,81 @@
-import java.util.Scanner;
+import java.util.*;
 
-class Node {
-    char data;
-    Node next;
+public class PalindromeCheckerApp {
 
-    Node(char data) {
-        this.data = data;
-        this.next = null;
-    }
-}
+    // Method 1: Two Pointer Approach
+    public static boolean twoPointerPalindrome(String str) {
+        int left = 0;
+        int right = str.length() - 1;
 
-class LinkedListPalindrome {
-
-    Node head;
-
-    void add(char data) {
-        Node newNode = new Node(data);
-
-        if (head == null) {
-            head = newNode;
-            return;
-        }
-
-        Node temp = head;
-        while (temp.next != null) {
-            temp = temp.next;
-        }
-
-        temp.next = newNode;
-    }
-
-    Node reverse(Node node) {
-        Node prev = null;
-        Node curr = node;
-
-        while (curr != null) {
-            Node next = curr.next;
-            curr.next = prev;
-            prev = curr;
-            curr = next;
-        }
-
-        return prev;
-    }
-
-    boolean isPalindrome() {
-
-        if (head == null || head.next == null)
-            return true;
-
-        Node slow = head;
-        Node fast = head;
-
-        while (fast != null && fast.next != null) {
-            slow = slow.next;
-            fast = fast.next.next;
-        }
-
-        Node secondHalf = reverse(slow);
-        Node firstHalf = head;
-
-        while (secondHalf != null) {
-            if (firstHalf.data != secondHalf.data)
+        while (left < right) {
+            if (str.charAt(left) != str.charAt(right))
                 return false;
 
-            firstHalf = firstHalf.next;
-            secondHalf = secondHalf.next;
+            left++;
+            right--;
+        }
+        return true;
+    }
+
+    // Method 2: Stack Approach
+    public static boolean stackPalindrome(String str) {
+        Stack<Character> stack = new Stack<>();
+
+        for (char c : str.toCharArray()) {
+            stack.push(c);
+        }
+
+        for (char c : str.toCharArray()) {
+            if (c != stack.pop())
+                return false;
         }
 
         return true;
     }
-}
 
-public class PalindromeCheckerApp {
+    // Method 3: Recursive Approach
+    public static boolean recursivePalindrome(String str, int start, int end) {
+
+        if (start >= end)
+            return true;
+
+        if (str.charAt(start) != str.charAt(end))
+            return false;
+
+        return recursivePalindrome(str, start + 1, end - 1);
+    }
 
     public static void main(String[] args) {
 
         Scanner sc = new Scanner(System.in);
+
         System.out.print("Enter a string: ");
         String input = sc.nextLine();
 
-        LinkedListPalindrome list = new LinkedListPalindrome();
+        // Two Pointer Timing
+        long start1 = System.nanoTime();
+        boolean result1 = twoPointerPalindrome(input);
+        long end1 = System.nanoTime();
 
-        for (char c : input.toCharArray()) {
-            list.add(c);
-        }
+        // Stack Timing
+        long start2 = System.nanoTime();
+        boolean result2 = stackPalindrome(input);
+        long end2 = System.nanoTime();
 
-        if (list.isPalindrome())
-            System.out.println("Palindrome");
-        else
-            System.out.println("Not Palindrome");
+        // Recursive Timing
+        long start3 = System.nanoTime();
+        boolean result3 = recursivePalindrome(input, 0, input.length() - 1);
+        long end3 = System.nanoTime();
+
+        System.out.println("\nResults:");
+
+        System.out.println("Two Pointer Approach: " + result1 +
+                " | Time: " + (end1 - start1) + " ns");
+
+        System.out.println("Stack Approach: " + result2 +
+                " | Time: " + (end2 - start2) + " ns");
+
+        System.out.println("Recursive Approach: " + result3 +
+                " | Time: " + (end3 - start3) + " ns");
     }
 }
