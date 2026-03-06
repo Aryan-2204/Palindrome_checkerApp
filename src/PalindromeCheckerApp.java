@@ -1,80 +1,94 @@
-/**
- * ================================================================
- * CLASS – PalindromeChecker
- * ================================================================
- *
- * This class encapsulates the palindrome checking logic.
- * It exposes a public method checkPalindrome() that verifies
- * whether a given string is a palindrome.
- *
- * Key OOP Concepts:
- * - Encapsulation
- * - Single Responsibility Principle
- */
+import java.util.Scanner;
 
-class PalindromeChecker {
+class Node {
+    char data;
+    Node next;
 
-    /**
-     * Method to check if a string is palindrome
-     */
-    public boolean checkPalindrome(String input) {
+    Node(char data) {
+        this.data = data;
+        this.next = null;
+    }
+}
 
-        int start = 0;
-        int end = input.length() - 1;
+class LinkedListPalindrome {
 
-        while (start < end) {
+    Node head;
 
-            if (input.charAt(start) != input.charAt(end)) {
+    void add(char data) {
+        Node newNode = new Node(data);
+
+        if (head == null) {
+            head = newNode;
+            return;
+        }
+
+        Node temp = head;
+        while (temp.next != null) {
+            temp = temp.next;
+        }
+
+        temp.next = newNode;
+    }
+
+    Node reverse(Node node) {
+        Node prev = null;
+        Node curr = node;
+
+        while (curr != null) {
+            Node next = curr.next;
+            curr.next = prev;
+            prev = curr;
+            curr = next;
+        }
+
+        return prev;
+    }
+
+    boolean isPalindrome() {
+
+        if (head == null || head.next == null)
+            return true;
+
+        Node slow = head;
+        Node fast = head;
+
+        while (fast != null && fast.next != null) {
+            slow = slow.next;
+            fast = fast.next.next;
+        }
+
+        Node secondHalf = reverse(slow);
+        Node firstHalf = head;
+
+        while (secondHalf != null) {
+            if (firstHalf.data != secondHalf.data)
                 return false;
-            }
 
-            start++;
-            end--;
+            firstHalf = firstHalf.next;
+            secondHalf = secondHalf.next;
         }
 
         return true;
     }
 }
 
-
-/**
- * ================================================================
- * MAIN CLASS – UseCase11PalindromeCheckerApp
- * ================================================================
- *
- * Goal:
- * Demonstrate Object-Oriented design by separating
- * palindrome logic into a service class.
- *
- * Flow:
- * - Create PalindromeChecker object
- * - Call checkPalindrome() method
- * - Display result
- *
- * Key Concepts:
- * - Encapsulation
- * - Object creation
- * - Method invocation
- */
-
 public class PalindromeCheckerApp {
 
     public static void main(String[] args) {
 
-        // Input string
-        String input = "racecar";
+        Scanner sc = new Scanner(System.in);
+        System.out.print("Enter a string: ");
+        String input = sc.nextLine();
 
-        // Create object of PalindromeChecker
-        PalindromeChecker checker = new PalindromeChecker();
+        LinkedListPalindrome list = new LinkedListPalindrome();
 
-        // Call method
-        boolean result = checker.checkPalindrome(input);
-
-        // Print result
-        if (result) {
-            System.out.println("The word \"" + input + "\" is a Palindrome.");
-        } else {
-            System.out.println("The word \"" + input + "\" is NOT a Palindrome.");
+        for (char c : input.toCharArray()) {
+            list.add(c);
         }
+
+        if (list.isPalindrome())
+            System.out.println("Palindrome");
+        else
+            System.out.println("Not Palindrome");
     }
 }
