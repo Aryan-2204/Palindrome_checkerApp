@@ -1,67 +1,63 @@
 /**
  * ================================================================
- * MAIN CLASS – UseCase9PalindromeCheckerApp
+ * MAIN CLASS – UseCase10PalindromeCheckerApp
  * ================================================================
  *
- * Use Case 9: Recursive Palindrome Checker
+ * Use Case 10: Case-Insensitive & Space-Ignored Palindrome
  *
  * Goal:
- * Check palindrome using recursion.
+ * Ignore spaces and case while checking a palindrome.
  *
  * Flow:
- * - Recursive call compares start & end characters
- * - Base condition exits recursion
- * - Result is printed
+ * - Normalize the string
+ * - Remove spaces using regular expressions
+ * - Convert to lowercase
+ * - Apply palindrome logic
  *
  * Key Concepts:
- * - Recursion
- * - Base Condition
- * - Call Stack
+ * - String preprocessing
+ * - Regular expressions
+ * - Case normalization
  *
  * Data Structure Used:
- * Call Stack
+ * String / Character Array
  *
  * @author Developer
- * @version 9.0
+ * @version 10.0
  */
 
 public class PalindromeCheckerApp {
 
-    /**
-     * Recursive method to check palindrome
-     */
-    public static boolean isPalindrome(String str, int start, int end) {
-
-        // Base condition
-        if (start >= end) {
-            return true;
-        }
-
-        // Compare characters
-        if (str.charAt(start) != str.charAt(end)) {
-            return false;
-        }
-
-        // Recursive call
-        return isPalindrome(str, start + 1, end - 1);
-    }
-
-    /**
-     * Application entry point
-     */
     public static void main(String[] args) {
 
-        // Input string
-        String input = "madam";
+        // Original input string
+        String input = "Never Odd Or Even";
 
-        // Call recursive function
-        boolean result = isPalindrome(input, 0, input.length() - 1);
+        // Step 1: Normalize string
+        String normalized = input.replaceAll("\\s+", "").toLowerCase();
 
-        // Display result
-        if (result) {
-            System.out.println("The word \"" + input + "\" is a Palindrome.");
+        // Step 2: Two-pointer palindrome check
+        int start = 0;
+        int end = normalized.length() - 1;
+
+        boolean isPalindrome = true;
+
+        while (start < end) {
+
+            if (normalized.charAt(start) != normalized.charAt(end)) {
+                isPalindrome = false;
+                break;
+            }
+
+            start++;
+            end--;
+        }
+
+        // Step 3: Print result
+        if (isPalindrome) {
+            System.out.println("\"" + input + "\" is a Palindrome (ignoring spaces and case).");
         } else {
-            System.out.println("The word \"" + input + "\" is NOT a Palindrome.");
+            System.out.println("\"" + input + "\" is NOT a Palindrome.");
         }
     }
 }
