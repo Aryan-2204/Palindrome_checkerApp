@@ -1,63 +1,80 @@
 /**
  * ================================================================
- * MAIN CLASS – UseCase10PalindromeCheckerApp
+ * CLASS – PalindromeChecker
  * ================================================================
  *
- * Use Case 10: Case-Insensitive & Space-Ignored Palindrome
+ * This class encapsulates the palindrome checking logic.
+ * It exposes a public method checkPalindrome() that verifies
+ * whether a given string is a palindrome.
  *
- * Goal:
- * Ignore spaces and case while checking a palindrome.
- *
- * Flow:
- * - Normalize the string
- * - Remove spaces using regular expressions
- * - Convert to lowercase
- * - Apply palindrome logic
- *
- * Key Concepts:
- * - String preprocessing
- * - Regular expressions
- * - Case normalization
- *
- * Data Structure Used:
- * String / Character Array
- *
- * @author Developer
- * @version 10.0
+ * Key OOP Concepts:
+ * - Encapsulation
+ * - Single Responsibility Principle
  */
 
-public class PalindromeCheckerApp {
+class PalindromeChecker {
 
-    public static void main(String[] args) {
+    /**
+     * Method to check if a string is palindrome
+     */
+    public boolean checkPalindrome(String input) {
 
-        // Original input string
-        String input = "Never Odd Or Even";
-
-        // Step 1: Normalize string
-        String normalized = input.replaceAll("\\s+", "").toLowerCase();
-
-        // Step 2: Two-pointer palindrome check
         int start = 0;
-        int end = normalized.length() - 1;
-
-        boolean isPalindrome = true;
+        int end = input.length() - 1;
 
         while (start < end) {
 
-            if (normalized.charAt(start) != normalized.charAt(end)) {
-                isPalindrome = false;
-                break;
+            if (input.charAt(start) != input.charAt(end)) {
+                return false;
             }
 
             start++;
             end--;
         }
 
-        // Step 3: Print result
-        if (isPalindrome) {
-            System.out.println("\"" + input + "\" is a Palindrome (ignoring spaces and case).");
+        return true;
+    }
+}
+
+
+/**
+ * ================================================================
+ * MAIN CLASS – UseCase11PalindromeCheckerApp
+ * ================================================================
+ *
+ * Goal:
+ * Demonstrate Object-Oriented design by separating
+ * palindrome logic into a service class.
+ *
+ * Flow:
+ * - Create PalindromeChecker object
+ * - Call checkPalindrome() method
+ * - Display result
+ *
+ * Key Concepts:
+ * - Encapsulation
+ * - Object creation
+ * - Method invocation
+ */
+
+public class PalindromeCheckerApp {
+
+    public static void main(String[] args) {
+
+        // Input string
+        String input = "racecar";
+
+        // Create object of PalindromeChecker
+        PalindromeChecker checker = new PalindromeChecker();
+
+        // Call method
+        boolean result = checker.checkPalindrome(input);
+
+        // Print result
+        if (result) {
+            System.out.println("The word \"" + input + "\" is a Palindrome.");
         } else {
-            System.out.println("\"" + input + "\" is NOT a Palindrome.");
+            System.out.println("The word \"" + input + "\" is NOT a Palindrome.");
         }
     }
 }
